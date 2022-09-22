@@ -5,12 +5,14 @@
 
 .PHONY: all test clean
 
-all:
+all: clean
 	solc --abi ./contracts/BaokuNFT.sol -o build
-	abigen --abi ./build/BaokuNFT.abi --pkg main --out BaokuNFT.go
+	solc --bin ./contracts/BaokuNFT.sol -o bin
+	abigen --abi ./build/BaokuNFT.abi --bin ./bin/BaokuNFT.bin --pkg contracts --out ./src/contracts/BaokuNFT.go
 
 clean:
 	rm -r -f ./build
+	rm -r -f ./bin
 
 test:
 	truffle compile
